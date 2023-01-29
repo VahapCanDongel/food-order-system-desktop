@@ -1,13 +1,16 @@
-import { db } from "../../../utils/firebase";
-import { doc, updateDoc } from "firebase/firestore";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
-    const { user } = JSON.parse(req.body);
+    const data = JSON.parse(req.body);
 
-    const docRef = doc(db, "users", user.uid);
-    await updateDoc(docRef, {
-      categories: {},
+    const categories = prisma.category.create({
+      data,
     });
+
+    // res.status(200).json({ message: "Category has been inserted" });
+    res.json(categories);
   }
 }

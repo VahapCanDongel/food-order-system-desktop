@@ -21,14 +21,17 @@ export default function Foods() {
 
   const generalFormSubmit = async (e) => {
     const data = {
-      itemName: itemName,
-      itemPrice: itemPrice,
       categoryName: categoryName,
-      user: user,
     };
 
     e.preventDefault();
-    const response = await fetch("/api/categories", {
+    // const response = await fetch("/api/categories", {
+    //   method: "POST",
+    //   body: JSON.stringify(data),
+    // });
+    // return response.json();
+
+    const response = await fetch("/api/categories/add-category", {
       method: "POST",
       body: JSON.stringify(data),
     });
