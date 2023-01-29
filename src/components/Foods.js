@@ -20,14 +20,19 @@ export default function Foods() {
   const route = useRouter();
 
   const generalFormSubmit = async (e) => {
-    e.preventDefault();
-    const documentRef = doc(db, "users", user.uid);
+    const data = {
+      itemName: itemName,
+      itemPrice: itemPrice,
+      categoryName: categoryName,
+      user: user,
+    };
 
-    await setDoc(documentRef, {
-      user: user.uid,
-      user_name: user.displayName,
-      user_email: user.email,
+    e.preventDefault();
+    const response = await fetch("/api/categories", {
+      method: "POST",
+      body: JSON.stringify(data),
     });
+    return response.json();
   };
 
   return (
@@ -74,6 +79,7 @@ export default function Foods() {
               </div>
               {addCategoryStatus && (
                 <div
+                  onClick={generalFormSubmit}
                   className="bg-sky-900 text-white p-3 rounded-md h-[40px] hover:cursor-pointer flex justify-center items-center text-xs"
                   // onClick={updateCategoryArray}
                 >
