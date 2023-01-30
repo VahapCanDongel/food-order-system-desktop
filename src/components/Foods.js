@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useAuthState } from "react-firebase-hooks/auth";
 
-export default function Foods() {
+export default function Foods({ data }) {
   const [itemName, setItemName] = useState({ description: "" });
   const [itemPrice, setItemPrice] = useState({ description: "" });
   const [parentCategory, setParentCategory] = useState({ description: "" });
@@ -18,6 +18,8 @@ export default function Foods() {
 
   const [user, loading] = useAuthState(auth);
   const route = useRouter();
+
+  const getData = async () => {};
 
   const generalFormSubmit = async (e) => {
     const data = {
@@ -36,6 +38,14 @@ export default function Foods() {
       body: JSON.stringify(data),
     });
     return response.json();
+  };
+
+  const addFood = async (e) => {
+    const data = {
+      name: itemName.description,
+      price: itemPrice.description,
+      // categoryID:
+    };
   };
 
   return (
@@ -60,7 +70,9 @@ export default function Foods() {
                 />
               ) : (
                 <select className="border-[1px] p-2 w-[240px] rounded-md shadow-md outline-none text-sm">
-                  <option>Test</option>
+                  {data.map((item) => (
+                    <option>{item.name}</option>
+                  ))}
                 </select>
               )}
 

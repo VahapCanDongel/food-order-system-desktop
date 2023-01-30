@@ -4,7 +4,11 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../utils/firebase";
 import { useRouter } from "next/router";
 
-export default function Dashboard() {
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
+
+export default function Dashboard({ data }) {
   const route = useRouter();
   const [user, loading] = useAuthState(auth);
   const getData = async () => {
@@ -20,7 +24,17 @@ export default function Dashboard() {
 
   return (
     <div className="w-full h-screen flex">
-      <Foods />
+      <Foods data={data} />
     </div>
   );
+}
+
+export async function getServerSideProps() {
+  const categories = await prisma.category.findMany();
+
+  return {
+    props: {
+      data: categories,
+    },
+  };
 }

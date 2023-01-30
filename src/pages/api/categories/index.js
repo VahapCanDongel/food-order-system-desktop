@@ -1,5 +1,9 @@
+import { PrismaClient } from "@prisma/client";
 import { db } from "../../../utils/firebase";
 import { doc, setDoc, collection } from "firebase/firestore";
+
+const prisma = new PrismaClient();
+
 export default async function handler(req, res) {
   if (req.method == "POST") {
     const { user, categoryName } = JSON.parse(req.body);
