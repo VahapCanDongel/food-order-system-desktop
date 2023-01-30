@@ -6,11 +6,12 @@ export default async function handler(req, res) {
   if (req.method === "POST") {
     const data = JSON.parse(req.body);
 
-    const categories = prisma.category.create({
-      data,
+    await prisma.category.create({
+      data: {
+        name: data.categoryName,
+      },
     });
 
-    // res.status(200).json({ message: "Category has been inserted" });
-    res.json(categories);
+    res.status(200).json({ message: "Category has been inserted" });
   }
 }

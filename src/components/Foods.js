@@ -21,7 +21,7 @@ export default function Foods() {
 
   const generalFormSubmit = async (e) => {
     const data = {
-      categoryName: categoryName,
+      categoryName: categoryName.description,
     };
 
     e.preventDefault();
