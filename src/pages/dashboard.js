@@ -8,7 +8,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export default function Dashboard({ data }) {
+export default function Dashboard({ data, allFoods }) {
   const route = useRouter();
   const [user, loading] = useAuthState(auth);
   const getData = async () => {
@@ -24,17 +24,19 @@ export default function Dashboard({ data }) {
 
   return (
     <div className="w-full h-screen flex">
-      <Foods data={data} />
+      <Foods data={data} allFoods={allFoods} />
     </div>
   );
 }
 
 export async function getServerSideProps() {
   const categories = await prisma.category.findMany();
+  const foods = await prisma.food.findMany();
 
   return {
     props: {
       data: categories,
+      allFoods: foods,
     },
   };
 }

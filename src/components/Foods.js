@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useAuthState } from "react-firebase-hooks/auth";
 
-export default function Foods({ data }) {
+export default function Foods({ data, allFoods }) {
   const [itemName, setItemName] = useState({ description: "" });
   const [itemPrice, setItemPrice] = useState({ description: "" });
   const [categoryName, setCategoryName] = useState({ description: "" });
@@ -150,11 +150,11 @@ export default function Foods({ data }) {
             <label className="text-sm">Selected Food:</label>
 
             <select className="border-[1px] p-2 w-[240px] rounded-md shadow-md outline-none">
-              {/* {allFoods.map((item) => {
-                item.category.map((food) => {
-                  <option>food</option>;
-                });
-              })} */}
+              {allFoods.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.name}
+                </option>
+              ))}
             </select>
           </div>
 
