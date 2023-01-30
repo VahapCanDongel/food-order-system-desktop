@@ -9,8 +9,8 @@ export default async function handler(req, res) {
     await prisma.food.create({
       data: {
         name: data.name,
-        price: data.price,
-        category_id: data.categoryID,
+        price: parseFloat(data.price),
+        categoryId: parseInt(data.categoryID),
       },
     });
 

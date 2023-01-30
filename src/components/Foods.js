@@ -6,32 +6,24 @@ import { useAuthState } from "react-firebase-hooks/auth";
 export default function Foods({ data }) {
   const [itemName, setItemName] = useState({ description: "" });
   const [itemPrice, setItemPrice] = useState({ description: "" });
-  const [parentCategory, setParentCategory] = useState({ description: "" });
-  const [allFoods, setAllFoods] = useState([]);
-  const [itemID, setItemID] = useState(0);
-
   const [categoryName, setCategoryName] = useState({ description: "" });
-
   const [addCategoryStatus, setAddCategoryStatus] = useState(false);
-  const [docuEmptyErrorMessageTrigger, setDocEmptyErrorMessageTrigger] =
-    useState(false);
+  const [selectedItemID, setSelectedItemID] = useState(data[0].id);
 
   const [user, loading] = useAuthState(auth);
   const route = useRouter();
 
-  const getData = async () => {};
+  const handleChange = async (e) => {
+    console.log(e.target.value);
+    setSelectedItemID(e.target.value);
+  };
 
-  const generalFormSubmit = async (e) => {
+  const addCategory = async (e) => {
     const data = {
       categoryName: categoryName.description,
     };
 
     e.preventDefault();
-    // const response = await fetch("/api/categories", {
-    //   method: "POST",
-    //   body: JSON.stringify(data),
-    // });
-    // return response.json();
 
     const response = await fetch("/api/categories/add-category", {
       method: "POST",
@@ -40,12 +32,18 @@ export default function Foods({ data }) {
     return response.json();
   };
 
-  const addFood = async (e) => {
+  const addFood = async () => {
     const data = {
       name: itemName.description,
       price: itemPrice.description,
-      // categoryID:
+      categoryID: selectedItemID,
     };
+
+    const response = await fetch("/api/foods/food", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+    return response.json();
   };
 
   return (
@@ -69,9 +67,16 @@ export default function Foods({ data }) {
                   className="border-[1px] p-2 w-[240px] rounded-md shadow-md outline-none text-sm disabled:bg-slate-100"
                 />
               ) : (
-                <select className="border-[1px] p-2 w-[240px] rounded-md shadow-md outline-none text-sm">
+                <select
+                  value={selectedItemID}
+                  onChange={handleChange}
+                  className="border-[1px] p-2 w-[240px] rounded-md shadow-md outline-none text-sm"
+                >
+                  <option></option>
                   {data.map((item) => (
-                    <option>{item.name}</option>
+                    <option key={item.id} value={item.id}>
+                      {item.name}
+                    </option>
                   ))}
                 </select>
               )}
@@ -94,7 +99,7 @@ export default function Foods({ data }) {
               </div>
               {addCategoryStatus && (
                 <div
-                  onClick={generalFormSubmit}
+                  onClick={addCategory}
                   className="bg-sky-900 text-white p-3 rounded-md h-[40px] hover:cursor-pointer flex justify-center items-center text-xs"
                   // onClick={updateCategoryArray}
                 >
@@ -105,14 +110,7 @@ export default function Foods({ data }) {
           </div>
 
           <div className="flex flex-col gap-2 justify-center">
-            <label className="text-sm ml-1 flex flex-col">
-              Food Name
-              {docuEmptyErrorMessageTrigger && (
-                <div className="text-red-400 text-xs">
-                  Please insert or, select a category to add food!
-                </div>
-              )}
-            </label>
+            <label className="text-sm ml-1 flex flex-col">Food Name</label>
             <input
               onChange={(e) =>
                 setItemName({ ...itemName, description: e.target.value })
@@ -139,13 +137,7 @@ export default function Foods({ data }) {
 
           {!addCategoryStatus && (
             <div
-              onClick={() => {
-                if (allFoods.length > 0) {
-                  updateFoodArray;
-                } else {
-                  setDocEmptyErrorMessageTrigger(true);
-                }
-              }}
+              onClick={addFood}
               className="bg-sky-900 text-white p-3 rounded-md h-[40px] hover:cursor-pointer flex justify-center items-center text-xs"
             >
               Add Food
