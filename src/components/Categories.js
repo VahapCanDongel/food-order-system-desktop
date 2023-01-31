@@ -11,7 +11,6 @@ export default function Categories({ data }) {
       .get(`/api/categories/get-categories?item_id=${itemID}`)
       .then((res) => {
         setAllFoodsInCategory(res);
-        console.log("This is response", res);
       })
       .catch((err) => {
         console.log("Error item not found", err);
@@ -32,7 +31,7 @@ export default function Categories({ data }) {
           </div>
         ))
       ) : (
-        <div>Hello</div>
+        <div>{console.log("all foods", allFoodsInCategory.data)}</div>
       )}
     </div>
   );
