@@ -38,3 +38,9 @@ model FoodExtra {
   exta_id Exta @relation(fields: [extaId], references: [id])
   extaId  Int
 }
+
+model CurrentOrder {
+  id        Int    @id @default(autoincrement())
+  foodName  String
+  foodPrice Float
+}
