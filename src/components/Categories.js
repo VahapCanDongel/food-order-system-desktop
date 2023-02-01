@@ -1,17 +1,21 @@
 import { useState } from "react";
 import axios from "axios";
+
 export default function Categories({ data }) {
   const [foodVisibility, setFoodVisibility] = useState(true);
   const [selectedCategoryID, setSelectedCategoryID] = useState("");
-  const [allFoodsInCategory, setAllFoodsInCategory] = useState("");
+  const [allFoodsInCategory, setAllFoodsInCategory] = useState([]);
 
   const handleVisibility = async (itemID) => {
-    setFoodVisibility(false);
-    const res = await axios.get(
-      `/api/categories/get-categories?item_id=${itemID}`
-    );
+    if (selectedCategoryID !== itemID) {
+      setSelectedCategoryID(itemID);
+      setFoodVisibility(false);
+      const res = await axios.get(
+        `/api/categories/get-categories?item_id=${itemID}`
+      );
 
-    setAllFoodsInCategory(res.data);
+      setAllFoodsInCategory(res.data);
+    }
   };
 
   return (
@@ -27,12 +31,13 @@ export default function Categories({ data }) {
               </div>
             </div>
           ))
-        : Object.values(allFoodsInCategory).map((value, index) => {
-            console.log(value.name);
-            // <div className="bg-white w-[250px] h-[100px] rounded-md shadow-lg flex justify-center items-center hover:cursor-pointer">
-            //   {value.name}
-            // </div>;
-          })}
+        : allFoodsInCategory.map((value, index) => (
+            <div className="bg-white w-[250px] h-[100px] rounded-md shadow-lg flex justify-center items-center hover:cursor-pointer">
+              <div className="text-black flex justify-center items-center text-[24px]">
+                {value.name}
+              </div>
+            </div>
+          ))}
     </div>
   );
 }
