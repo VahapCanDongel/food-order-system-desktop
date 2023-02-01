@@ -22,8 +22,6 @@ export default function Categories({ data }) {
     const res = await axios.post(
       `/api/basket/add-to-basket?food_name=${foodName}&food_price=${foodPrice}`
     );
-
-    console.log(res);
   };
 
   return (
@@ -39,7 +37,7 @@ export default function Categories({ data }) {
               </div>
             </div>
           ))
-        : allFoodsInCategory.map((value, index) => (
+        : allFoodsInCategory.map((value) => (
             <div
               onClick={() => addToBasket(value.name, value.price)}
               className="bg-white w-[250px] h-[100px] rounded-md shadow-lg flex justify-center items-center hover:cursor-pointer"
