@@ -1,9 +1,9 @@
 import CurrentOrderCard from "./CurrentOrderCard";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axios, { all } from "axios";
 export default function Basket() {
   const [basketFoods, setBasketFoods] = useState([]);
-
+  const allFoods = [];
   useEffect(() => {
     const getData = async () => {
       const foodsInBasket = await axios.get("/api/basket/get-from-basket");
@@ -23,6 +23,7 @@ export default function Basket() {
 
       {console.log(basketFoods)}
       {basketFoods.map((item) => {
+        allFoods.push(item.foodPrice);
         return (
           <CurrentOrderCard
             itemName={item.foodName}
@@ -34,7 +35,15 @@ export default function Basket() {
       <div className="bg-white border-[1px] w-full h-[200px] mb-auto sticky bottom-0 p-2 flex flex-col justify-center gap-28">
         <div className="flex justify-between text-xl">
           <div>Total</div>
-          <div>£20.99</div>
+          {(() => {
+            let sum = 0;
+
+            for (let i = 0; i < allFoods.length; i++) {
+              sum += allFoods[i];
+            }
+
+            return <div>{sum}</div>;
+          })()}
         </div>
 
         <div className="w-full bg-cyan-900 h-[40px] text-white rounded-md flex items-center justify-center">
