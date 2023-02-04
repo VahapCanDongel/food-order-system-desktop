@@ -1,9 +1,11 @@
 import CurrentOrderCard from "./CurrentOrderCard";
 import { useEffect, useState } from "react";
-import axios, { all } from "axios";
+import axios from "axios";
 export default function Basket() {
   const [basketFoods, setBasketFoods] = useState([]);
   const allFoods = [];
+  const currentTime = new Date();
+
   useEffect(() => {
     const getData = async () => {
       const foodsInBasket = await axios.get("/api/basket/get-from-basket");
@@ -18,7 +20,14 @@ export default function Basket() {
     <div className="w-[550px] h-screen bg-white shadow-lg overflow-scroll">
       <div className="text-[16px] flex justify-between bg-white h-[70px] sticky top-0 border-b-[1px] shadow-md items-center p-2">
         <div>Current Order</div>
-        <div>01/01/1111</div>
+        <div className="flex flex-col">
+          <div>{currentTime.toLocaleDateString()}</div>
+          <div>
+            <div>
+              {currentTime.getUTCHours()} : {currentTime.getUTCMinutes()}
+            </div>
+          </div>
+        </div>
       </div>
 
       {basketFoods.map((item) => {
