@@ -42,7 +42,7 @@ export default function Basket() {
               sum += allFoods[i];
             }
 
-            return <div>{sum}</div>;
+            return <div>{sum.toFixed(2)}</div>;
           })()}
         </div>
 
