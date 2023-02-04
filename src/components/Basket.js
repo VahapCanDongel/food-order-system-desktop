@@ -21,7 +21,6 @@ export default function Basket() {
         <div>01/01/1111</div>
       </div>
 
-      {console.log(basketFoods)}
       {basketFoods.map((item) => {
         allFoods.push(item.foodPrice);
         return (
@@ -32,8 +31,8 @@ export default function Basket() {
         );
       })}
 
-      <div className="bg-white border-[1px] w-full h-[200px] mb-auto sticky bottom-0 p-2 flex flex-col justify-center gap-28">
-        <div className="flex justify-between text-xl">
+      <div className="bg-white border-[1px] w-full h-[200px] mb-auto sticky bottom-0 p-2 flex flex-col justify-center">
+        <div className="flex justify-between text-xl mb-auto">
           <div>Total</div>
           {(() => {
             let sum = 0;

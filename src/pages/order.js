@@ -7,7 +7,10 @@ const prisma = new PrismaClient();
 export default function Order({ data }) {
   return (
     <div className="w-full h-screen flex justify-center items-center">
-      <Categories data={data} />
+      <div className="w-[80%] p-4">
+        <Categories data={data} />
+      </div>
+
       <Basket />
     </div>
   );

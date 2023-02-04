@@ -1,7 +1,7 @@
 export default function CurrentOrderCard({ itemName, itemPrice }) {
   return (
     <div className="">
-      <div className="w-[400px] min-h-[150px] bg-white-50 rounded-md m-auto shadow-md border-[1px] p-2">
+      <div className="w-300px] min-h-[150px] bg-white-50 rounded-md m-auto shadow-md border-[1px] p-2">
         <div className="flex justify-between">
           <div className="text-[15px]">{itemName}</div>
         </div>
