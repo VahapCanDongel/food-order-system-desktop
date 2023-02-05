@@ -2,7 +2,7 @@ import { auth, db } from "../utils/firebase";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useAuthState } from "react-firebase-hooks/auth";
-
+import axios from "axios";
 export default function Foods({ data, allFoods }) {
   const [itemName, setItemName] = useState({ description: "" });
   const [itemPrice, setItemPrice] = useState({ description: "" });
@@ -10,12 +10,21 @@ export default function Foods({ data, allFoods }) {
   const [addCategoryStatus, setAddCategoryStatus] = useState(false);
   const [selectedItemID, setSelectedItemID] = useState(data[0].id);
 
+  const [categoryFoods, setCategoryFoods] = useState([]);
+
   const [user, loading] = useAuthState(auth);
   const route = useRouter();
 
   const handleChange = async (e) => {
     console.log(e.target.value);
     setSelectedItemID(e.target.value);
+
+    await axios
+      .get(`/api/categories/get-categories?item_id=${e.target.value}`)
+      .then((response) => {
+        console.log(response.data);
+        setCategoryFoods(response.data);
+      });
   };
 
   const addCategory = async (e) => {
@@ -150,7 +159,7 @@ export default function Foods({ data, allFoods }) {
             <label className="text-sm">Selected Food:</label>
 
             <select className="border-[1px] p-2 w-[240px] rounded-md shadow-md outline-none">
-              {allFoods.map((item) => (
+              {categoryFoods.map((item) => (
                 <option key={item.id} value={item.id}>
                   {item.name}
                 </option>
